@@ -80,3 +80,6 @@ $RECYCLE.BIN
 *.bak
 *.swp
 *~
+/Assembly-CSharp-firstpass.csproj
+/Assembly-CSharp.csproj
+/Assembly-CSharp-Editor.csproj
