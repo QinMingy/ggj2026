@@ -1,5 +1,5 @@
 ﻿// 此文件由ConfigTableExporter自动生成，请勿手动修改！
-// 生成时间：2026-01-31 17:50:55
+// 生成时间：2026-01-31 21:12:08
 
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace ConfigData
         /// 属性
         /// </summary>
         [JsonProperty("attribute")]
-        public int attribute { get; set; }
+        public int[] attribute { get; set; }
 
         /// <summary>
         /// 图标
@@ -74,6 +74,12 @@ namespace ConfigData
                 return false;
             }
 
+            if (attribute == null)
+            {
+                Debug.LogWarning("配置数组字段 attribute 不能为null");
+                return false;
+            }
+
             return true;
         }
 
@@ -103,7 +109,7 @@ namespace ConfigData
                 name = "玄铁屑",
                 desc = "玄铁炼熔后的细屑，凝天地金气，为面具锻铸灵骨，坚而不脆",
                 price = 100,
-                attribute = 1,
+                attribute = new int[] { 0, 0, 0, 0, 0 },
                 icon = "Icon_1",
             }},
             { 10002, new Item
@@ -112,7 +118,7 @@ namespace ConfigData
                 name = "铜铃片",
                 desc = "古寺铜铃磨下的薄片，藏清越金声，能为面具聚魂，驱散阴翳",
                 price = 150,
-                attribute = 1,
+                attribute = new int[] { 0, 0, 0, 0, 0 },
                 icon = "Icon_1",
             }},
             { 10003, new Item
@@ -121,7 +127,7 @@ namespace ConfigData
                 name = "紫金砂",
                 desc = "紫金矿脉中结出的细砂，金气醇厚，铸入面具可令灵核凝实，百邪不侵",
                 price = 200,
-                attribute = 1,
+                attribute = new int[] { 0, 0, 0, 0, 0 },
                 icon = "Icon_1",
             }},
             { 10004, new Item
@@ -130,8 +136,8 @@ namespace ConfigData
                 name = "金纹片",
                 desc = "古器上剥落的鎏金纹路，含岁月金韵，为面具饰骨，增其镇煞之力",
                 price = 250,
-                attribute = 1,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 20001, new Item
             {
@@ -139,8 +145,8 @@ namespace ConfigData
                 name = "青竹篾",
                 desc = "春山嫩竹剖成的细篾，蕴草木生机，为面具塑肌理，柔而有韧",
                 price = 100,
-                attribute = 2,
-                icon = "",
+                attribute = new int[] { 0, 1, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 20002, new Item
             {
@@ -148,8 +154,8 @@ namespace ConfigData
                 name = "柏叶芯",
                 desc = "古柏新抽的叶芯，藏山林清气，温养面具灵脉，令其气息绵长",
                 price = 150,
-                attribute = 2,
-                icon = "",
+                attribute = new int[] { 0, 1, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 20003, new Item
             {
@@ -157,8 +163,8 @@ namespace ConfigData
                 name = "灵桃木枝",
                 desc = "东方灵桃枝截成的细段，木气精纯，铸入面具可聚天地生气，滋养灵韵",
                 price = 200,
-                attribute = 2,
-                icon = "",
+                attribute = new int[] { 0, 1, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 20004, new Item
             {
@@ -166,8 +172,8 @@ namespace ConfigData
                 name = "沉香木粉",
                 desc = "沉香木磨成的细粉，凝草木精华，为面具熏脉，令其灵息醇厚不散",
                 price = 250,
-                attribute = 2,
-                icon = "",
+                attribute = new int[] { 0, 1, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 30001, new Item
             {
@@ -175,8 +181,8 @@ namespace ConfigData
                 name = "清露珠",
                 desc = "晨朝荷叶上的清露凝珠，蕴天地水气，涤面具尘秽，润其灵韵",
                 price = 100,
-                attribute = 3,
-                icon = "",
+                attribute = new int[] { 0, 0, 1, 0, 0 },
+                icon = "Icon_1",
             }},
             { 30002, new Item
             {
@@ -184,8 +190,8 @@ namespace ConfigData
                 name = "溪泉石髓",
                 desc = "溪泉底石中渗出的清髓，藏柔润水意，为面具凝魂，令其灵息澄澈",
                 price = 150,
-                attribute = 3,
-                icon = "",
+                attribute = new int[] { 0, 0, 1, 0, 0 },
+                icon = "Icon_1",
             }},
             { 30003, new Item
             {
@@ -193,8 +199,8 @@ namespace ConfigData
                 name = "瑶池甘露",
                 desc = "仙池所凝的甘露，水气清冽醇厚，涤面具浊质，蕴养灵核，令其清透无垢",
                 price = 200,
-                attribute = 3,
-                icon = "",
+                attribute = new int[] { 0, 0, 1, 0, 0 },
+                icon = "Icon_1",
             }},
             { 30004, new Item
             {
@@ -202,8 +208,8 @@ namespace ConfigData
                 name = "玄冰玉屑",
                 desc = "极北玄冰玉磨成的细屑，水气化冰，凝而不散，铸入面具可令灵韵坚凝",
                 price = 250,
-                attribute = 3,
-                icon = "",
+                attribute = new int[] { 0, 0, 1, 0, 0 },
+                icon = "Icon_1",
             }},
             { 40001, new Item
             {
@@ -211,8 +217,8 @@ namespace ConfigData
                 name = "丹枫薪",
                 desc = "秋山丹枫枝干制成的薪柴，燃之有温火，炼面具灵核，驱散阴寒",
                 price = 100,
-                attribute = 4,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 1, 0 },
+                icon = "Icon_1",
             }},
             { 40002, new Item
             {
@@ -220,8 +226,8 @@ namespace ConfigData
                 name = "艾草绒",
                 desc = "陈年艾草捣成的绒絮，燃之出纯阳火气，为面具驱秽，凝其灵焰",
                 price = 150,
-                attribute = 4,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 1, 0 },
+                icon = "Icon_1",
             }},
             { 40003, new Item
             {
@@ -229,8 +235,8 @@ namespace ConfigData
                 name = "凤凰羽灰",
                 desc = "凤凰羽翼燃后所凝的轻灰，含纯阳真火，炼面具灵骨，焚尽一切阴邪",
                 price = 200,
-                attribute = 4,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 1, 0 },
+                icon = "Icon_1",
             }},
             { 40004, new Item
             {
@@ -238,8 +244,8 @@ namespace ConfigData
                 name = "朱砂焰屑",
                 desc = "朱砂混真火炼出的焰屑，火气相融，铸入面具可令灵焰炽烈，镇煞破障",
                 price = 250,
-                attribute = 4,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 1, 0 },
+                icon = "Icon_1",
             }},
             { 50001, new Item
             {
@@ -247,8 +253,8 @@ namespace ConfigData
                 name = "黄黏土",
                 desc = "中原厚土所出的黄黏土，蕴坤地之气，为面具筑基，固其灵根",
                 price = 100,
-                attribute = 5,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 50002, new Item
             {
@@ -256,8 +262,8 @@ namespace ConfigData
                 name = "麦饭石粉",
                 desc = "古山麦饭石磨成的细粉，藏土之精，承托面具灵韵，令其根基稳固",
                 price = 150,
-                attribute = 5,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 50003, new Item
             {
@@ -265,8 +271,8 @@ namespace ConfigData
                 name = "昆仑玉土",
                 desc = "昆仑山下结出的玉质净土，土气醇厚凝实，为面具铸基，固魂守灵，百扰不侵",
                 price = 200,
-                attribute = 5,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 0, 0 },
+                icon = "Icon_1",
             }},
             { 50004, new Item
             {
@@ -274,8 +280,8 @@ namespace ConfigData
                 name = "息壤屑",
                 desc = "上古息壤所凝的细屑，藏生生不息的土气，承托面具灵核，令其灵韵绵长不散",
                 price = 250,
-                attribute = 5,
-                icon = "",
+                attribute = new int[] { 0, 0, 0, 0, 0 },
+                icon = "Icon_1",
             }},
         };
 

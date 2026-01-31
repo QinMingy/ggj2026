@@ -100,7 +100,7 @@ public class MaterialInventoryManager : MonoSingleton<MaterialInventoryManager>
             materialData.id = itemConfig.idValue;
             materialData.materialName = itemConfig.name;
             materialData.description = itemConfig.desc;
-            materialData.elementType = GetElementTypeFromAttribute(itemConfig.attribute);
+            materialData.elementType = GetElementTypeFromAttribute(itemConfig.attribute[1]);
             materialData.attributeValue = 10;
             materialData.initialQuantity = kvp.Value;
             
