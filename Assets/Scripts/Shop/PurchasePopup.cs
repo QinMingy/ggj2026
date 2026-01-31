@@ -1,0 +1,76 @@
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class PurchasePopup : MonoBehaviour
+{
+    public TextMeshProUGUI itemNameText;
+    public TextMeshProUGUI descText;
+    public TextMeshProUGUI priceText;
+    public TextMeshProUGUI quantityText;
+
+    public Slider quantitySlider;
+    public Button confirmButton;
+    public Button cancelButton;
+
+    private ShopItemData currentItem;
+
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+
+        quantitySlider.onValueChanged.AddListener(OnQuantityChanged);
+        cancelButton.onClick.AddListener(Hide);
+        confirmButton.onClick.AddListener(Confirm);
+    }
+
+    public void Show(ShopItemData item)
+    {
+        currentItem = item;
+
+        itemNameText.text = item.itemName;
+        descText.text = item.description;
+
+        quantitySlider.minValue = 1;
+        quantitySlider.maxValue = 99;
+        quantitySlider.value = 1;
+
+        UpdatePrice();
+
+        gameObject.SetActive(true);
+    }
+
+    private void OnQuantityChanged(float value)
+    {
+        quantityText.text = ((int)value).ToString();
+        UpdatePrice();
+    }
+
+    private void UpdatePrice()
+    {
+        int qty = (int)quantitySlider.value;
+        priceText.text = (currentItem.price * qty).ToString();
+    }
+
+    private void Confirm()
+    {
+        int qty = (int)quantitySlider.value;
+        int cost = currentItem.price * qty;
+
+        if (PlayerWallet.Instance.Spend(cost))
+        {
+            // TODO: 加入背包
+            Debug.Log($"购买 {currentItem.itemName} x{qty}");
+            Hide();
+        }
+        else
+        {
+            Debug.Log("金币不足");
+        }
+    }
+
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+    }
+}
