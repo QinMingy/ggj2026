@@ -1,0 +1,40 @@
+# 示例Excel配置文件说明
+
+由于无法直接在代码中创建Excel文件，请按照以下格式手动创建一个Excel文件用于测试：
+
+## 文件名
+`ItemConfig.xlsx`
+
+## 表格内容
+
+### Sheet1 - ItemConfig
+
+| A | B | C | D | E | F |
+|---|---|---|---|---|---|
+| 物品ID | 物品名称 | 物品价格 | 标签列表 | 额外属性 | 人物信息 |
+| ID | Name | Price | Tags | Properties | Human |
+| int | string | int | string[] | object | object |
+| 1001 | 火焰剑 | 500 | 武器,火属性 | {"attack":50,"durability":100} | {"name":"张三","info":{"age":25,"gender":1}} |
+| 1002 | 治疗药水 | 50 | 消耗品,治疗 | {"heal":25,"cooldown":3} | {"name":"李四","info":{"age":30,"gender":0}} |
+| 1003 | 防护盾 | 300 | 防具,防御 | {"defense":30,"weight":10} | {"name":"王五","info":{"age":35,"gender":1}} |
+
+## 使用方法
+
+1. 创建一个新的Excel文件（.xlsx格式）
+2. 按照上述格式填入数据
+3. 保存文件
+4. 在Unity中打开配置表工具
+5. 选择这个Excel文件进行导出测试
+
+## 注意事项
+
+- 第一行是中文描述，用于生成代码注释
+- 第二行是C#属性名，必须是有效的标识符
+- 第三行是数据类型，支持：int、string、float、bool、int[]、string[]、object
+- 数组格式使用逗号分隔：元素1,元素2,元素3（也支持旧格式：{元素1,元素2,元素3}）
+- 复杂对象使用JSON格式：{"key":"value","key2":123}
+- 支持嵌套复杂类型，会自动递归生成对应的C#类
+- 例如：{"name":"张三","info":{"age":25,"gender":1}} 会生成：
+  - HumanData 类，包含 string name 和 InfoInfoData info
+  - InfoInfoData 类，包含 int age 和 int gender
+- 从第四行开始是实际的配置数据 
