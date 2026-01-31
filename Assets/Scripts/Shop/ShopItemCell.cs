@@ -10,16 +10,22 @@ public class ShopItemCell : MonoBehaviour
     public TextMeshProUGUI priceText;
     public Button button;
 
-    private ShopItem data;
-    private System.Action<ShopItem> onClick;
+    private Item data;
+    private System.Action<Item> onClick;
 
-    public void Init(ShopItem item, System.Action<ShopItem> clickCallback, Sprite fallbackIcon = null)
+    public void Init(Item item, System.Action<Item> clickCallback, Sprite fallbackIcon = null)
     {
         data = item;
         onClick = clickCallback;
 
-        if (icon != null && fallbackIcon != null)
-            icon.sprite = fallbackIcon;
+        if (icon != null)
+        {
+            Sprite resolved = null;
+            if (!string.IsNullOrWhiteSpace(item.icon))
+                resolved = Resources.Load<Sprite>(item.icon);
+
+            icon.sprite = resolved != null ? resolved : fallbackIcon;
+        }
 
         nameText.text = item.name;
         priceText.text = item.price.ToString();

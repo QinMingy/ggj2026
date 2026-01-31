@@ -14,7 +14,7 @@ public class PurchasePopup : MonoBehaviour
     public Button confirmButton;
     public Button cancelButton;
 
-    private ShopItem currentItem;
+    private Item currentItem;
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class PurchasePopup : MonoBehaviour
         confirmButton.onClick.AddListener(Confirm);
     }
 
-    public void Show(ShopItem item)
+    public void Show(Item item)
     {
         currentItem = item;
 

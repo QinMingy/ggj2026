@@ -15,12 +15,13 @@ public class ShopUI : MonoBehaviour
 
     [Header("Config")]
     public Sprite defaultIcon;
+    private static readonly int[] ItemIds = { 10001, 10002, 10003 };
 
     [Header("Close")]
     public UnityEngine.UI.Button closeButton; // 右上角关闭按钮（可选）
     public bool closeWithEsc = true;          // 是否允许ESC关闭
 
-    public List<ShopItem> allItems = new List<ShopItem>();
+    public List<Item> allItems = new List<Item>();
 
     private void Start()
     {
@@ -48,16 +49,12 @@ public class ShopUI : MonoBehaviour
     private void LoadItemsFromConfig()
     {
         allItems.Clear();
-        var dict = ShopItemManager.GetAllConfigs();
-        if (dict != null)
+        for (int i = 0; i < ItemIds.Length; i++)
         {
-            foreach (var kv in dict)
-            {
-                allItems.Add(kv.Value);
-            }
+            var item = ItemManager.GetConfig(ItemIds[i]);
+            if (item != null)
+                allItems.Add(item);
         }
-
-        allItems.Sort((a, b) => a.ID.CompareTo(b.ID));
     }
 
     public void Refresh()
@@ -78,7 +75,7 @@ public class ShopUI : MonoBehaviour
 
     }
 
-    private void OnItemClicked(ShopItem item)
+    private void OnItemClicked(Item item)
     {
         popup.Show(item);
     }
