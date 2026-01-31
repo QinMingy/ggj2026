@@ -5,11 +5,21 @@ using TMPro;
 
 public class MaskInventoryPanel : MonoBehaviour
 {
-    public GameObject maskItemPrefab;
     public Transform contentParent;
     public TextMeshProUGUI countText;
 
+    private GameObject maskItemTemplate;
     private List<MaskInventoryItem> activeItems = new List<MaskInventoryItem>();
+
+    private void Awake()
+    {
+        maskItemTemplate = contentParent.Find("MaskInventoryItem_Template")?.gameObject;
+
+        if (maskItemTemplate == null)
+        {
+            Debug.LogError("MaskInventoryPanel: 未找到模板对象！请确保Content下有 MaskInventoryItem_Template");
+        }
+    }
 
     public void UpdateInventory(List<MaskData> masks)
     {
@@ -20,9 +30,17 @@ public class MaskInventoryPanel : MonoBehaviour
         }
         activeItems.Clear();
 
+        if (maskItemTemplate == null)
+        {
+            Debug.LogError("MaskInventoryPanel: 模板对象为空，无法更新背包");
+            return;
+        }
+
         foreach (var mask in masks)
         {
-            GameObject itemObj = Instantiate(maskItemPrefab, contentParent);
+            GameObject itemObj = Instantiate(maskItemTemplate, contentParent);
+            itemObj.SetActive(true);
+            itemObj.name = $"MaskInventoryItem_{mask.id}";
             MaskInventoryItem item = itemObj.GetComponent<MaskInventoryItem>();
             item.Init(mask);
             activeItems.Add(item);

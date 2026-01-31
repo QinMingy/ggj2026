@@ -192,17 +192,19 @@ public class MaskCrafterUIBuilder : EditorWindow
         scroll.viewport = viewportRect;
         scroll.content = contentRect;
 
+        GameObject categoryTemplate = CreateCategoryTemplate(content.transform);
+        GameObject materialItemTemplate = CreateMaterialItemTemplate(content.transform);
+
         InventoryPanel inventory = scrollView.AddComponent<InventoryPanel>();
         inventory.contentParent = content.transform;
-        inventory.categoryPrefab = CreateCategoryPrefab();
-        inventory.materialItemPrefab = CreateMaterialItemPrefab();
 
         return rightArea;
     }
 
-    private static GameObject CreateCategoryPrefab()
+    private static GameObject CreateCategoryTemplate(Transform parent)
     {
-        GameObject category = new GameObject("CategoryHeader");
+        GameObject category = new GameObject("CategoryHeader_Template");
+        category.transform.SetParent(parent, false);
         RectTransform rect = category.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(0, 40);
         
@@ -223,12 +225,14 @@ public class MaskCrafterUIBuilder : EditorWindow
         text.alignment = TextAlignmentOptions.MidlineLeft;
         text.color = Color.yellow;
 
+        category.SetActive(false);
         return category;
     }
 
-    private static GameObject CreateMaterialItemPrefab()
+    private static GameObject CreateMaterialItemTemplate(Transform parent)
     {
-        GameObject item = new GameObject("MaterialItem");
+        GameObject item = new GameObject("MaterialItem_Template");
+        item.transform.SetParent(parent, false);
         RectTransform rect = item.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(0, 70);
         
@@ -293,6 +297,7 @@ public class MaskCrafterUIBuilder : EditorWindow
         materialItem.quantityText = qtyText;
         materialItem.attributeText = attrText;
 
+        item.SetActive(false);
         return item;
     }
 
@@ -446,17 +451,19 @@ public class MaskCrafterUIBuilder : EditorWindow
         scroll.viewport = viewportRect;
         scroll.content = contentRect;
 
+        GameObject maskItemTemplate = CreateMaskInventoryItemTemplate(content.transform);
+
         MaskInventoryPanel inventoryPanel = leftArea.AddComponent<MaskInventoryPanel>();
         inventoryPanel.contentParent = content.transform;
         inventoryPanel.countText = countText;
-        inventoryPanel.maskItemPrefab = CreateMaskInventoryItemPrefab();
 
         return leftArea;
     }
 
-    private static GameObject CreateMaskInventoryItemPrefab()
+    private static GameObject CreateMaskInventoryItemTemplate(Transform parent)
     {
-        GameObject item = new GameObject("MaskInventoryItem");
+        GameObject item = new GameObject("MaskInventoryItem_Template");
+        item.transform.SetParent(parent, false);
         RectTransform rect = item.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(0, 120);
 
@@ -518,6 +525,7 @@ public class MaskCrafterUIBuilder : EditorWindow
         maskItem.attributesText = attrText;
         maskItem.createTimeText = timeText;
 
+        item.SetActive(false);
         return item;
     }
 

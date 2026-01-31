@@ -41,7 +41,7 @@ public class MaterialItem : MonoBehaviour, IPointerClickHandler
         onSelect?.Invoke(data);
     }
 
-    public void TriggerUse()
+    public void UseMaterial()
     {
         onUse?.Invoke(data);
     }
