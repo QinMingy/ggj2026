@@ -15,6 +15,7 @@ public class PurchasePopup : MonoBehaviour
     public Button cancelButton;
 
     private Item currentItem;
+    private System.Action<Item, int> onConfirm;
 
     private void Awake()
     {
@@ -25,9 +26,10 @@ public class PurchasePopup : MonoBehaviour
         confirmButton.onClick.AddListener(Confirm);
     }
 
-    public void Show(Item item)
+    public void Show(Item item, System.Action<Item, int> confirmCallback)
     {
         currentItem = item;
+        onConfirm = confirmCallback;
 
         itemNameText.text = item.name;
         descText.text = item.desc;
@@ -56,18 +58,8 @@ public class PurchasePopup : MonoBehaviour
     private void Confirm()
     {
         int qty = (int)quantitySlider.value;
-        int cost = currentItem.price * qty;
-
-        if (PlayerEntity.Instance.SpendGold(cost))
-        {
-            // TODO: 加入背包
-            Debug.Log($"购买 {currentItem.name} x{qty}");
-            Hide();
-        }
-        else
-        {
-            Debug.Log("金币不足");
-        }
+        onConfirm?.Invoke(currentItem, qty);
+        Hide();
     }
 
     public void Hide()

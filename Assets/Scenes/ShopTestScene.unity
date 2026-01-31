@@ -537,13 +537,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7070644620840519448, guid: cc5fd2a9d1174064281576a9f7686716,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070644620840519448, guid: cc5fd2a9d1174064281576a9f7686716,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070644620840519448, guid: cc5fd2a9d1174064281576a9f7686716,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7070644620840519448, guid: cc5fd2a9d1174064281576a9f7686716,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 7994574929082851471, guid: cc5fd2a9d1174064281576a9f7686716,
         type: 3}
       propertyPath: m_Name
       value: ShopPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5006804100428675515, guid: cc5fd2a9d1174064281576a9f7686716, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc5fd2a9d1174064281576a9f7686716, type: 3}
