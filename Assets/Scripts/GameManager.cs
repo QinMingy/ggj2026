@@ -20,19 +20,14 @@ public class GameManager : MonoBehaviour
 
     [Header("UI Settings")]
     public Transform uiRoot;
-    public List<UIPageConfig> uiPageConfigs = new List<UIPageConfig>();
+    
+    [Header("Startup Settings")]
+    public string initialPageName = "StartMenuUI";
+    public bool autoShowInitialPage = true;
 
     private Dictionary<string, GameObject> loadedPages = new Dictionary<string, GameObject>();
-    private Dictionary<string, GameObject> uiPrefabMap = new Dictionary<string, GameObject>();
     private Stack<string> pageHistory = new Stack<string>();
     private string currentPageName;
-
-    [System.Serializable]
-    public class UIPageConfig
-    {
-        public string pageName;
-        public GameObject prefab;
-    }
 
     private void Awake()
     {
@@ -44,18 +39,24 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        InitializeUIPrefabMap();
+        EnsurePlayerEntity();
     }
 
-    private void InitializeUIPrefabMap()
+    private void EnsurePlayerEntity()
     {
-        uiPrefabMap.Clear();
-        foreach (var config in uiPageConfigs)
+        if (PlayerEntity.Instance == null)
         {
-            if (!string.IsNullOrEmpty(config.pageName) && config.prefab != null)
-            {
-                uiPrefabMap[config.pageName] = config.prefab;
-            }
+            GameObject playerObj = new GameObject("PlayerEntity");
+            playerObj.AddComponent<PlayerEntity>();
+            Debug.Log("GameManager: 自动创建PlayerEntity");
+        }
+    }
+
+    private void Start()
+    {
+        if (autoShowInitialPage && !string.IsNullOrEmpty(initialPageName))
+        {
+            ShowUI(initialPageName, false);
         }
     }
 
@@ -71,6 +72,14 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning($"GameManager: 页面 {pageName} 已经在显示中");
             return;
+        }
+
+        string previousPageName = currentPageName;
+
+        if (addToHistory && !string.IsNullOrEmpty(previousPageName))
+        {
+            pageHistory.Push(previousPageName);
+            Debug.Log($"GameManager: 将 {previousPageName} 加入历史栈，栈深度: {pageHistory.Count}");
         }
 
         HideCurrentPage();
@@ -92,13 +101,8 @@ public class GameManager : MonoBehaviour
             pageObj.SetActive(true);
         }
 
-        if (addToHistory && !string.IsNullOrEmpty(currentPageName))
-        {
-            pageHistory.Push(currentPageName);
-        }
-
         currentPageName = pageName;
-        Debug.Log($"GameManager: 显示页面 {pageName}");
+        Debug.Log($"GameManager: 显示页面 {pageName}，当前栈深度: {pageHistory.Count}");
     }
 
     public void HideUI(string pageName)
@@ -134,14 +138,17 @@ public class GameManager : MonoBehaviour
 
     public void GoBack()
     {
+        Debug.Log($"GameManager: GoBack调用，当前页面: {currentPageName}，栈深度: {pageHistory.Count}");
+        
         if (pageHistory.Count > 0)
         {
             string previousPage = pageHistory.Pop();
+            Debug.Log($"GameManager: 从栈中弹出 {previousPage}，剩余栈深度: {pageHistory.Count}");
             ShowUI(previousPage, false);
         }
         else
         {
-            Debug.LogWarning("GameManager: 没有可返回的页面");
+            Debug.LogWarning($"GameManager: 没有可返回的页面，当前页面: {currentPageName}");
         }
     }
 
@@ -152,9 +159,17 @@ public class GameManager : MonoBehaviour
             return existingPage;
         }
 
-        if (!uiPrefabMap.TryGetValue(pageName, out GameObject prefab))
+        GameObject prefab = ResourceManager.Instance.LoadPrefab(pageName);
+        if (prefab == null)
         {
-            Debug.LogError($"GameManager: 未找到页面 {pageName} 的预制体配置");
+            Debug.LogError($"GameManager: 无法从Resources/Prefab/{pageName}加载预制体");
+            return null;
+        }
+
+        UIPage prefabPage = prefab.GetComponent<UIPage>();
+        if (prefabPage == null)
+        {
+            Debug.LogError($"GameManager: 预制体 {pageName} 没有UIPage组件");
             return null;
         }
 

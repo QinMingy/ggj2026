@@ -67,7 +67,7 @@ public class ShopUI : UIPage
         allItems.Clear();
         for (int i = 0; i < ItemIds.Length; i++)
         {
-            var item = ItemManager.GetConfig(ItemIds[i]);
+            var item = ConfigManager.Instance.GetConfig<Item>(ItemIds[i]);
             if (item != null)
                 allItems.Add(item);
         }

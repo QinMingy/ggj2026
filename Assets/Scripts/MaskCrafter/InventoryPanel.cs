@@ -100,6 +100,7 @@ public class InventoryPanel : MonoBehaviour
         if (entry != null && entry.quantity > 0)
         {
             entry.quantity--;
+            MaterialInventoryManager.Instance.RemoveMaterial(material.id, 1);
             
             if (activeItems.TryGetValue(material.id, out MaterialItem item))
             {

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using ConfigData;
@@ -58,10 +58,22 @@ public class PurchasePopup : MonoBehaviour
         int qty = (int)quantitySlider.value;
         int cost = currentItem.price * qty;
 
+        if (PlayerEntity.Instance == null)
+        {
+            Debug.LogError("PlayerEntity.Instance 为空！");
+            return;
+        }
+
+        if (MaterialInventoryManager.Instance == null)
+        {
+            Debug.LogError("MaterialInventoryManager.Instance 为空！");
+            return;
+        }
+
         if (PlayerEntity.Instance.SpendGold(cost))
         {
-            // TODO: 加入背包
-            Debug.Log($"购买 {currentItem.name} x{qty}");
+            MaterialInventoryManager.Instance.AddMaterial(currentItem.idValue, qty);
+            Debug.Log($"购买 {currentItem.name} x{qty}，已添加到背包");
             Hide();
         }
         else

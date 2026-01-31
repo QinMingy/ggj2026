@@ -12,16 +12,8 @@ public class MaskCrafterUI : UIPage
     public Button createMaskButton;
     public Button shopBtn;
 
-    [Header("Test Data")]
-    public List<MaterialData> testMaterials;
-
     private void Start()
     {
-        if (testMaterials != null && testMaterials.Count > 0)
-        {
-            Initialize(testMaterials);
-        }
-
         if (createMaskButton != null)
         {
             createMaskButton.onClick.AddListener(OnCreateMaskClicked);
@@ -36,12 +28,21 @@ public class MaskCrafterUI : UIPage
         {
             shopBtn.onClick.AddListener(OnShopButtonClicked);
         }
+
+        MaterialInventoryManager.Instance.OnInventoryChanged += RefreshInventory;
     }
 
     public override void OnPageOpen()
     {
         base.OnPageOpen();
+        RefreshInventory();
         Debug.Log("面具制造器页面已打开");
+    }
+
+    private void RefreshInventory()
+    {
+        List<MaterialData> materials = MaterialInventoryManager.Instance.GetMaterialDataList();
+        Initialize(materials);
     }
 
     public override void OnPageClose()
@@ -109,6 +110,11 @@ public class MaskCrafterUI : UIPage
         if (maskInventory != null)
         {
             maskInventory.OnInventoryChanged -= UpdateMaskInventoryDisplay;
+        }
+
+        if (MaterialInventoryManager.Instance != null)
+        {
+            MaterialInventoryManager.Instance.OnInventoryChanged -= RefreshInventory;
         }
     }
 }
