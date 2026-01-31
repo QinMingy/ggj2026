@@ -22,7 +22,7 @@ public class ShopItemCell : MonoBehaviour
         {
             Sprite resolved = null;
             if (!string.IsNullOrWhiteSpace(item.icon))
-                resolved = Resources.Load<Sprite>(item.icon);
+                resolved = ResourceManager.Instance.LoadSprite(item.icon);
 
             icon.sprite = resolved != null ? resolved : fallbackIcon;
         }
