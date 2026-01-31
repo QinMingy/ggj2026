@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ConfigData;
 
 public class ShopItemCell : MonoBehaviour
 {
@@ -9,16 +10,18 @@ public class ShopItemCell : MonoBehaviour
     public TextMeshProUGUI priceText;
     public Button button;
 
-    private ShopItemData data;
-    private System.Action<ShopItemData> onClick;
+    private ShopItem data;
+    private System.Action<ShopItem> onClick;
 
-    public void Init(ShopItemData item, System.Action<ShopItemData> clickCallback)
+    public void Init(ShopItem item, System.Action<ShopItem> clickCallback, Sprite fallbackIcon = null)
     {
         data = item;
         onClick = clickCallback;
 
-        icon.sprite = item.icon;
-        nameText.text = item.itemName;
+        if (icon != null && fallbackIcon != null)
+            icon.sprite = fallbackIcon;
+
+        nameText.text = item.name;
         priceText.text = item.price.ToString();
 
         button.onClick.RemoveAllListeners();

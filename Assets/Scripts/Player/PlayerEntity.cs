@@ -49,6 +49,11 @@ public class PlayerEntity : MonoBehaviour
         gold += amount;
     }
 
+    public int GetGold()
+    {
+        return gold;
+    }
+
     /* ================= ÉùÍû ================= */
 
     /// <summary>

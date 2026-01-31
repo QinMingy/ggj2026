@@ -1,6 +1,7 @@
-using UnityEngine;
+锘縰sing UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ConfigData;
 
 public class PurchasePopup : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PurchasePopup : MonoBehaviour
     public Button confirmButton;
     public Button cancelButton;
 
-    private ShopItemData currentItem;
+    private ShopItem currentItem;
 
     private void Awake()
     {
@@ -24,12 +25,12 @@ public class PurchasePopup : MonoBehaviour
         confirmButton.onClick.AddListener(Confirm);
     }
 
-    public void Show(ShopItemData item)
+    public void Show(ShopItem item)
     {
         currentItem = item;
 
-        itemNameText.text = item.itemName;
-        descText.text = item.description;
+        itemNameText.text = item.name;
+        descText.text = item.desc;
 
         quantitySlider.minValue = 1;
         quantitySlider.maxValue = 99;
@@ -57,15 +58,15 @@ public class PurchasePopup : MonoBehaviour
         int qty = (int)quantitySlider.value;
         int cost = currentItem.price * qty;
 
-        if (PlayerWallet.Instance.Spend(cost))
+        if (PlayerEntity.Instance.SpendGold(cost))
         {
-            // TODO: 加入背包
-            Debug.Log($"购买 {currentItem.itemName} x{qty}");
+            // TODO: 鍔犲叆鑳屽寘
+            Debug.Log($"璐拱 {currentItem.name} x{qty}");
             Hide();
         }
         else
         {
-            Debug.Log("金币不足");
+            Debug.Log("閲戝竵涓嶈冻");
         }
     }
 
@@ -74,3 +75,4 @@ public class PurchasePopup : MonoBehaviour
         gameObject.SetActive(false);
     }
 }
+

@@ -1,12 +1,12 @@
-using System.Collections.Generic;
+锘縰sing System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using ConfigData;
 
 public class ShopUI : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI goldText;
-    public TextMeshProUGUI pageText;
     public Transform contentRoot;
     public ShopItemCell itemCellPrefab;
 
@@ -14,18 +14,17 @@ public class ShopUI : MonoBehaviour
     public PurchasePopup popup;
 
     [Header("Config")]
-    public int itemsPerPage = 16;
+    public Sprite defaultIcon;
 
     [Header("Close")]
-    public UnityEngine.UI.Button closeButton; // 右上角关闭按钮（可选）
-    public bool closeWithEsc = true;          // 是否允许ESC关闭
+    public UnityEngine.UI.Button closeButton; // 鍙充笂瑙掑叧闂寜閽紙鍙�夛級
+    public bool closeWithEsc = true;          // 鏄惁鍏佽ESC鍏抽棴
 
-    public List<ShopItemData> allItems;
-
-    private int currentPage = 0;
+    public List<ShopItem> allItems = new List<ShopItem>();
 
     private void Start()
     {
+        LoadItemsFromConfig();
         Refresh();
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseShop);
@@ -38,7 +37,27 @@ public class ShopUI : MonoBehaviour
             CloseShop();
             return;
         }
-        goldText.text = PlayerEntity.Instance.Gold.ToString();
+        if (goldText != null)
+        {
+            var player = PlayerEntity.Instance;
+            if (player != null)
+                goldText.text = player.GetGold().ToString();
+        }
+    }
+
+    private void LoadItemsFromConfig()
+    {
+        allItems.Clear();
+        var dict = ShopItemManager.GetAllConfigs();
+        if (dict != null)
+        {
+            foreach (var kv in dict)
+            {
+                allItems.Add(kv.Value);
+            }
+        }
+
+        allItems.Sort((a, b) => a.ID.CompareTo(b.ID));
     }
 
     public void Refresh()
@@ -46,45 +65,33 @@ public class ShopUI : MonoBehaviour
         foreach (Transform child in contentRoot)
             Destroy(child.gameObject);
 
-        int start = currentPage * itemsPerPage;
-        int end = Mathf.Min(start + itemsPerPage, allItems.Count);
-
-        for (int i = start; i < end; i++)
+        if (allItems.Count == 0)
         {
-            var cell = Instantiate(itemCellPrefab, contentRoot);
-            cell.Init(allItems[i], OnItemClicked);
+            return;
         }
 
-        pageText.text = $"{currentPage + 1} / {Mathf.CeilToInt((float)allItems.Count / itemsPerPage)}";
+        for (int i = 0; i < allItems.Count; i++)
+        {
+            var cell = Instantiate(itemCellPrefab, contentRoot);
+            cell.Init(allItems[i], OnItemClicked, defaultIcon);
+        }
+
     }
 
-    public void NextPage()
-    {
-        if ((currentPage + 1) * itemsPerPage >= allItems.Count) return;
-        currentPage++;
-        Refresh();
-    }
-
-    public void PrevPage()
-    {
-        if (currentPage <= 0) return;
-        currentPage--;
-        Refresh();
-    }
-
-    private void OnItemClicked(ShopItemData item)
+    private void OnItemClicked(ShopItem item)
     {
         popup.Show(item);
     }
 
     public void CloseShop()
     {
-        // 关闭购买弹窗（防止下次打开还残留）
+        // 鍏抽棴璐拱寮圭獥锛堥槻姝笅娆℃墦寮�杩樻畫鐣欙級
         if (popup != null)
             popup.Hide();
 
-        // 关闭整个商店面板（ShopUI挂在ShopPanel上）
+        // 鍏抽棴鏁翠釜鍟嗗簵闈㈡澘锛圫hopUI鎸傚湪ShopPanel涓婏級
         gameObject.SetActive(false);
     }
 
 }
+
