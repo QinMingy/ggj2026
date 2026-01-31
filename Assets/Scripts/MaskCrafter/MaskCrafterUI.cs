@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MaskCrafterUI : MonoBehaviour
+public class MaskCrafterUI : UIPage
 {
     public MaskDisplay maskDisplay;
     public InventoryPanel inventoryPanel;
@@ -10,6 +10,7 @@ public class MaskCrafterUI : MonoBehaviour
     public MaskInventory maskInventory;
     public MaskInventoryPanel maskInventoryPanel;
     public Button createMaskButton;
+    public Button shopBtn;
 
     [Header("Test Data")]
     public List<MaterialData> testMaterials;
@@ -30,6 +31,28 @@ public class MaskCrafterUI : MonoBehaviour
         {
             maskInventory.OnInventoryChanged += UpdateMaskInventoryDisplay;
         }
+
+        if (shopBtn != null)
+        {
+            shopBtn.onClick.AddListener(OnShopButtonClicked);
+        }
+    }
+
+    public override void OnPageOpen()
+    {
+        base.OnPageOpen();
+        Debug.Log("面具制造器页面已打开");
+    }
+
+    public override void OnPageClose()
+    {
+        base.OnPageClose();
+        Debug.Log("面具制造器页面已关闭");
+    }
+
+    private void OnShopButtonClicked()
+    {
+        GameManager.Instance.ShowUI("ShopUI");
     }
 
     public void Initialize(List<MaterialData> materials)

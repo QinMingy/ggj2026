@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using ConfigData;
 
-public class ShopUI : MonoBehaviour
+public class ShopUI : UIPage
 {
     [Header("UI")]
     public TextMeshProUGUI goldText;
@@ -18,8 +18,9 @@ public class ShopUI : MonoBehaviour
     private static readonly int[] ItemIds = { 10001, 10002, 10003 };
 
     [Header("Close")]
-    public UnityEngine.UI.Button closeButton; // 右上角关闭按钮（可选）
-    public bool closeWithEsc = true;          // 是否允许ESC关闭
+    public UnityEngine.UI.Button closeButton;
+    public bool closeWithEsc = true;
+    public bool useGameManagerClose = true;
 
     public List<Item> allItems = new List<Item>();
 
@@ -29,6 +30,21 @@ public class ShopUI : MonoBehaviour
         Refresh();
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseShop);
+    }
+
+    public override void OnPageOpen()
+    {
+        base.OnPageOpen();
+        Refresh();
+        Debug.Log("商店页面已打开");
+    }
+
+    public override void OnPageClose()
+    {
+        base.OnPageClose();
+        if (popup != null)
+            popup.Hide();
+        Debug.Log("商店页面已关闭");
     }
 
     private void Update()
@@ -82,12 +98,17 @@ public class ShopUI : MonoBehaviour
 
     public void CloseShop()
     {
-        // 关闭购买弹窗（防止下次打开还残留）
         if (popup != null)
             popup.Hide();
 
-        // 关闭整个商店面板（ShopUI挂在ShopPanel上）
-        gameObject.SetActive(false);
+        if (useGameManagerClose)
+        {
+            GameManager.Instance.GoBack();
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
 }
